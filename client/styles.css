@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: #f0f0f0;
+}
+svg {
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background: #fff;
+  outline: solid 1px #000;
+}
+.settings {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80px;
+  padding: 8px 16px;
+}
