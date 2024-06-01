@@ -7,6 +7,7 @@ interface PathData {
 interface BaseMessageType {
   type: MessageTypes;
   userId: string;
+  message: string | undefined;
 }
 
 interface MessageTypeUserAdded extends BaseMessageType {
@@ -15,7 +16,6 @@ interface MessageTypeUserAdded extends BaseMessageType {
 
 interface MessageTypeWelcome extends BaseMessageType {
   paths: PathData[];
-  message: string;
 }
 
 interface MessageTypeDraw extends BaseMessageType, PathData {}
@@ -46,7 +46,7 @@ enum SocketEvents {
 enum MessageTypes {
   USER_ADDED = "userAdded",
   WELCOME = "welcome",
-  DRAW = "draw  ",
+  DRAW = "draw",
   CLEAR_USER_STROKE = "clearUserStroke",
   USER_LEFT = "userLeft",
 }
