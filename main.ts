@@ -68,6 +68,7 @@ Deno.serve((req) => {
       // Handle incoming messages
       const data = JSON.parse(event.data);
       const messageType: MessageTypes = data.type;
+      console.log("messageType", messageType);
 
       switch (messageType) {
         case MessageTypes.CLEAR_USER_STROKE:
