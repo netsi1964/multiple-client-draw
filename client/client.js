@@ -6,8 +6,31 @@ const socketUrl = location.protocol === "https:" ? "wss://" : "ws://";
 const socket = new WebSocket(`${socketUrl}old-lobster-87.deno.dev`);
 
 socket.onmessage = (event) => {
-  const { stroke, pathData } = JSON.parse(event.data);
-  drawPath({ stroke, pathData });
+  const { users, stroke, d, type, message, userId, paths } = JSON.parse(
+    event.data
+  );
+  console.log(type, event.data);
+  switch (type) {
+    case "welcome":
+      username.textContent = `Username: ${userId}`;
+      paths.map(({ stroke, pathData }) => {
+        drawPath({ stroke, pathData });
+      });
+      break;
+    case "newUser":
+      info.textContent = `${userId} joined, ${users.length} in room`;
+      break;
+    case "removeUserStroke":
+      info.textContent = `removeUserStroke ${userId} lines`;
+      break;
+    case "userLeft":
+      info.textContent = `${userId} left, ${users.length} in room`;
+      break;
+    default:
+      info.textContent = `${userId} added line`;
+      drawPath({ stroke, d, userId });
+      break;
+  }
 };
 
 canvas.addEventListener("mousedown", startDrawing);
@@ -17,6 +40,10 @@ canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("touchstart", startDrawing);
 canvas.addEventListener("touchend", stopDrawing);
 canvas.addEventListener("touchmove", draw);
+
+clear.addEventListener("click", () => {
+  socket.send(JSON.stringify({ type: "clearUserStroke" }));
+});
 
 let svgPath, currentPath;
 stroke.value = getRandomHexColor();
