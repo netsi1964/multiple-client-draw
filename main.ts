@@ -33,7 +33,15 @@ Deno.serve((req) => {
     sendWelcomeMessage();
 
     // Broadcast a user added message to all connected clients
-    broadCast({ type: MessageTypes.USER_ADDED, userId, users }, false);
+    broadCast(
+      {
+        type: MessageTypes.USER_ADDED,
+        userId,
+        users,
+        message: undefined,
+      },
+      false
+    );
 
     socket.addEventListener(SocketEvents.MESSAGE, (event) => {
       // Handle incoming messages
@@ -48,6 +56,7 @@ Deno.serve((req) => {
               type: MessageTypes.CLEAR_USER_STROKE,
               paths,
               userId,
+              message: undefined,
             },
             false
           );
@@ -85,7 +94,12 @@ Deno.serve((req) => {
 
     function removeUser() {
       users = users.filter((user) => user !== userId);
-      broadCast({ type: MessageTypes.USER_LEFT, userId, users });
+      broadCast({
+        type: MessageTypes.USER_LEFT,
+        userId,
+        users,
+        message: undefined,
+      });
     }
 
     function broadCast(data: KnownMessageTypes, notSender = true) {
