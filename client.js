@@ -37,7 +37,7 @@ function setupUI() {
 
 function setupWebSocket() {
   const socketUrl = location.protocol === "https:" ? "wss://" : "ws://";
-  const socket = new WebSocket(`${socketUrl}old-lobster-87.deno.dev`);
+  const socket = new WebSocket(`${socketUrl}multiple-client-draw.deno.dev`);
 
   // Setup handling of incoming messages
   socket.onmessage = handleMessagesFromWebsocket;
