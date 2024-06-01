@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import {
   KnownMessageTypes,
   PathData,
@@ -11,6 +12,26 @@ let paths: PathData[] = [];
 let users: string[] = [];
 
 Deno.serve((req) => {
+  // Handle HTTP requests
+  if (req.method === "GET") {
+    // set path to the path of the request
+    const path = new URL(req.url).pathname;
+    // handle "index.html", "styles.css", and "client.js"
+    if (path === "/") {
+      return new Response(Deno.readTextFileSync("./index.html"), {
+        headers: { "content-type": "text/html" },
+      });
+    } else if (path === "/styles.css") {
+      return new Response(Deno.readTextFileSync("./styles.css"), {
+        headers: { "content-type": "text/css" },
+      });
+    } else if (path === "/client.js") {
+      return new Response(Deno.readTextFileSync("./client.js"), {
+        headers: { "content-type": "text/javascript" },
+      });
+    }
+  }
+
   if (req.headers.get("upgrade") !== "websocket") {
     return new Response(null, { status: 501 });
   }
